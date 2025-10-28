@@ -1,0 +1,6 @@
+/*Crear un procedimiento llamado “insert_5” que inserte 5 cursos mediante
+un bucle WHILE. Los datos se obitenen de la siguiente manera
+-El código debe ser el superior más 1
+-El nombre debe ser siempre “CURSO”+código_generado
+-El precio, un número aleatorio entre 100 y 200
+*/
