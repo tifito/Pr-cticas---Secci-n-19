@@ -1,0 +1,39 @@
+/*Crear un procedimiento llamado “borrado_total” que tenga como
+argumento el código del curso. Debemos borrar:
+-El curso
+-Los alumnos del curso
+-Las asignaturas asociadas al curso
+-Los datos de NOTAS_ALUMNOS que se refieran a ese curso
+-Comprobar que el curso existe. De lo contrario devolver un error
+*/
+
+
+
+-- Antes de ejecutar el procedimiento borrado_total, deben asegurarse de que las tablas 'cursos', 'alumnos', 'asignaturas' y 'notas_alumnos' 
+-- estén creadas en la base de datos y que tengan la columna cod_curso. 
+-- De lo contrario, el procedimiento no funcionará y MySQL dará error de columna o tabla inexistente.
+
+-- Solución
+
+-- Cambia temporalmente el delimitador de ';' a '//' para definir correctamente el procedimiento
+delimiter //   							
+drop procedure if exists borrado_total//        -- Elimina el procedimiento si ya existía
+create procedure borrado_total(p_codigo int)     -- Crea el procedimiento y recibe como parámetro el código del curso
+begin
+    declare existe int;                          -- declara la variable existe para verificar si el curso existe
+    
+    select cod_curso into existe from cursos where cod_curso=p_codigo;  -- Busca el curso en la tabla 'cursos'
+    
+    if existe is null then                       -- Si no se encuentra el curso
+        select 'Curso no existe';               -- Muestra el mensaje de error
+    else
+        delete from notas_alumnos where cod_curso=p_codigo;  -- Elimina las notas asociadas al curso
+        delete from asignaturas where cod_curso=p_codigo;    -- Elimina las asignaturas del curso
+        delete from alumnos where cod_curso=p_codigo;        -- Elimina los alumnos del curso
+        delete from cursos where cod_curso=p_codigo;         -- Elimina el curso
+    end if;
+
+end//
+-- Probar el procedimiento
+call borrado_total(500);// -- Curso no existe, muestra mensaje de error
+call borrado_total(206);// -- Curso existe, se eliminan los datos relacionados
