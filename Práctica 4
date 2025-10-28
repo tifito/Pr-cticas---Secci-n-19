@@ -1,8 +1,14 @@
 /*Crear un procedimiento llamado “texto_reves” que ponga un texto a la
 inversa usando un bucle LOOP.
 */
+-- Este procedimiento no necesita ninguna tabla existente.
+-- Funciona solo con variables internas y el texto que le pongan como parámetro.
+-- Pueden ejecutarlo sin problemas
 
-delimiter //                                    -- Cambia temporalmente el delimitador de ';' a '//' para definir el procedimiento
+
+-- EJEMPLO:
+-- Cambia temporalmente el delimitador de ';' a '//' para definir el procedimiento
+delimiter //                                    
 drop procedure if exists texto_reves//          -- Elimina el procedimiento si ya existía
 create procedure texto_reves(p_texto varchar(50))  -- Crea el procedimiento con un parámetro de entrada: el texto a invertir
 begin
