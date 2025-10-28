@@ -1,3 +1,27 @@
 /*Crear un procedimiento llamado “texto_reves” que ponga un texto a la
 inversa usando un bucle LOOP.
 */
+
+delimiter //                                    -- Cambia temporalmente el delimitador de ';' a '//' para definir el procedimiento
+drop procedure if exists texto_reves//          -- Elimina el procedimiento si ya existía
+create procedure texto_reves(p_texto varchar(50))  -- Crea el procedimiento con un parámetro de entrada: el texto a invertir
+begin
+    declare longitud int;                       -- Declara variable para almacenar la longitud del texto
+    declare reves varchar(50);                  -- Declara variable para guardar el texto invertido
+    set longitud = length(p_texto);             -- Calcula la longitud del texto original
+    set reves = '';                             -- Inicializa la variable 'reves' vacía
+
+    eti1: LOOP                                  -- Inicia el bucle LOOP con la etiqueta 'eti1'
+        set reves = concat(reves, substr(p_texto, longitud, 1));  -- Toma una letra desde el final y la concatena a 'reves'
+        set longitud = longitud - 1;            -- Reduce en 1 la longitud para avanzar hacia el inicio del texto
+
+        if longitud = 0 then                    -- Si ya no quedan caracteres por recorrer...
+            leave eti1;                         -- entonces sale del bucle LOOP
+        end if;
+    end loop;
+
+    select reves;                               -- Muestra el texto invertido como resultado
+end//
+
+-- Probar el procedimiento
+call texto_reves('HOLA COMO ESTÁN');                    -- Ejecuta el procedimiento pasando el texto 'ejemplo' como argumento
