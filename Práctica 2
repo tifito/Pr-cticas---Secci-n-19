@@ -9,7 +9,7 @@ argumento el código del curso. Debemos borrar:
 
 
 
--- Antes de ejecutar el procedimiento borrado_total, deben asegurarse de que las tablas 'cursos', 'alumnos', 'asignaturas' y 'notas_alumnos' 
+-- NOTA: Antes de ejecutar el procedimiento borrado_total, deben asegurarse de que las tablas 'cursos', 'alumnos', 'asignaturas' y 'notas_alumnos' 
 -- estén creadas en la base de datos y que tengan la columna cod_curso. 
 -- De lo contrario, el procedimiento no funcionará y MySQL dará error de columna o tabla inexistente.
 
