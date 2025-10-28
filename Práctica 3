@@ -1,0 +1,44 @@
+/*
+Crear un procedimiento llamado “ejemplo_case” que inserte un curso con
+las siguientes condiciones. Debemos usar un CASE
+-Le pasamos 2 argumentos, el nombre del curso y el tipo.
+-El código se calcula de forma automática con el mayor código más
+uno.
+-El nombre debe ser convertido a mayúsculas
+-El tipo se calcula de la siguiente forma
+-Si el tipo es “V” el precio del curso será 100
+-Si el tipo es “H” el precio del curso será 150
+-Si el tipo es “R” el precio del curso será 200
+-Cualquier otro valor el precio será 250
+*/
+
+-- NOTA: Para que este procedimiento funcione, la tabla 'cursos' debe existir y tener al menos las columnas 'nombre' y 'precio'. 
+-- De lo contrario, MySQL generará un error al intentar insertar los datos.
+
+-- Solución
+
+-- Cambia temporalmente el delimitador de ';' a '//' para definir el procedimiento
+delimiter //                                    
+drop procedure if exists ejemplo_case//        -- Elimina el procedimiento si ya existía
+create procedure ejemplo_case(p_nombre varchar(50), tipo char(1) )  -- Crea el procedimiento y recibe el nombre y tipo del curso
+begin
+    declare v_precio decimal;                  -- Declara la variable 'v_precio' para almacenar el precio del curso
+    declare v_codigo int;                      -- Declara la variable 'v_codigo' para almacenar el código del curso
+    
+    select max(cod_curso)+1 into v_codigo from cursos;  -- Calcula el nuevo código sumando 1 al máximo código existente
+    
+    case tipo                                  -- Evalúa el tipo de curso para asignar el precio correspondiente
+        when 'V' then
+            set v_precio=100;                 -- Si es 'V', precio 100
+        when 'H' then
+            set v_precio=150;                 -- Si es 'H', precio 150
+        when 'R' then
+            set v_precio=200;                 -- Si es 'R', precio 200
+        else
+            set v_precio=250;                 -- Cualquier otro valor, precio 250
+    end case;
+    
+    insert into cursos values(v_codigo,upper(p_nombre),v_precio);  -- Inserta el nuevo curso con código, nombre en mayúsculas y precio
+end//
+-- Probar el procedimiento
+call ejemplo_case('curso_zzzz','R');        -- Ejecuta el procedimiento con nombre 'curso_zzzz' y tipo 'R'
