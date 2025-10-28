@@ -1,0 +1,39 @@
+delimiter //
+drop procedure if exists insertar_asignatura//              -- Elimina el procedimiento si ya existe
+create procedure insertar_asignatura(                       
+    p_nombre varchar(50),                                   -- Nombre de la asignatura
+    p_cod_curso int,                                        -- Código del curso
+    p_cod_profesor int,                                     -- Código del profesor
+    p_duracion int                                          -- Duración de la asignatura
+)
+begin
+-- declarar variables locales
+    declare codigo int;                                     
+    declare existe_curso int;                             
+    declare existe_profesor int;                            
+-- calcular el código
+    select max(cod_asignatura) + 1 into codigo              -- Calcula el nuevo código sumando 1 al máximo actual
+    from asignaturas;
+
+    select cod_curso into existe_curso                      -- Busca si el curso ingresado existe
+    from cursos where cod_curso = p_cod_curso;
+
+    if existe_curso is null then                            -- Si no existe, muestra el mensaje
+        select 'El curso no existe';
+    else
+        select cod_profesor into existe_profesor            -- Verifica si el profesor existe
+        from profesores where cod_profesor = p_cod_profesor;
+
+        if existe_profesor is null then                     -- Si no existe, muestra el mensaje
+            select 'El profesor no existe';
+        else
+            insert into asignaturas                         -- Si todo está bien, inserta el nuevo registro
+            values (codigo, p_nombre, p_cod_curso, p_cod_profesor, p_duracion);
+        end if;
+    end if;
+end//
+delimiter ;
+
+call insertar_asignatura('asignatura1', 1, 1, 100);    -- Caso correcto
+call insertar_asignatura('asignatura1', 111, 1, 100);  -- Error: curso no existe
+call insertar_asignatura('asignatura1', 1, 111, 100);  -- Error: profesor no existe
