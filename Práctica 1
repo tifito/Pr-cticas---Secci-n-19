@@ -1,3 +1,12 @@
+/*Crear un procedimiento llamado “insertar _asignatura” que tiene como argumentos el nombre, cod_curso, cod_profesor y duración. 
+El código del curso debe calcularse de forma automática, usando el máximo código que haya en ese momento y sumándole 1. 
+Debemos comprobar que tanto el curso como el profesor existen. De lo contrario generamos un error
+
+
+
+SOLUCIÓN:
+*/
+
 delimiter //
 drop procedure if exists insertar_asignatura//              -- Elimina el procedimiento si ya existe
 create procedure insertar_asignatura(                       
