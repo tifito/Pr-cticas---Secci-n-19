@@ -5,7 +5,7 @@
 
 */
 
--- Las tablas 2asignaturas", "cursos" y "profesores" deben existir antes de usar el procedimiento y funcione correctamente.
+--NOTA: Las tablas 'asignaturas', 'cursos' y 'profesores' deben existir antes de usar el procedimiento y funcione correctamente.
 -- SOLUCIÓN:
 
 
