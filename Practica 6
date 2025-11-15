@@ -1,0 +1,29 @@
+/*Crear un procedimiento llamado “insert_5” que inserte 5 cursos mediante
+un bucle REPEAT. Los datos se obitenen de la siguiente manera
+-El código debe ser el superior más 1
+-El nombre debe ser siempre “CURSO”+código_generado
+-El precio, un número aleatorio entre 100 y 200
+*/
+
+
+delimiter //
+drop procedure if exists insert_5_repeat//          -- Elimina el procedimiento si existe
+create procedure insert_5_repeat()
+begin
+
+ declare contador int;                              -- Contador del REPEAT
+ declare codigo int;                                -- Guardará el nuevo código
+ set contador = 1;                                  -- Inicia el contador
+ set codigo = 0;                                    -- Valor inicial
+
+ REPEAT                                             -- Inicia el bucle REPEAT
+   select max(cod_curso)+1 into codigo from cursos; -- Calcula el próximo código disponible
+   insert into cursos values (codigo,concat('CURSO',codigo), (RAND() * (200 - 100)) + 100);  -- Inserta curso con nombre y precio aleatorio
+   set contador = contador + 1;                     -- Aumenta el contador
+ until contador > 5                                 -- Condición para salir del REPEAT
+ end repeat;
+end//
+delimiter ;
+
+-- Probar el procedimiento
+call insert_5_repeat();//                            -- Ejecuta el procedimiento
