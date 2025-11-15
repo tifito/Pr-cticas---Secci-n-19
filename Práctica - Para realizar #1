@@ -4,3 +4,35 @@ un bucle WHILE. Los datos se obitenen de la siguiente manera
 -El nombre debe ser siempre “CURSO”+código_generado
 -El precio, un número aleatorio entre 100 y 200
 */
+
+
+
+delimiter //
+drop procedure if exists insert_5//       -- Borra el procedimiento si existe
+create procedure insert_5()
+begin
+
+ declare contador int;                   -- Contador del WHILE
+ declare codigo int;                     -- Guardará el nuevo código
+ set contador = 1;                       -- Inicia el contador
+ set codigo = 0;                         -- Valor inicial (no usado luego)
+
+ WHILE contador <= 5 do                  -- Repite 5 veces
+   select max(cod_curso)+1 into codigo   -- Calcula el próximo código
+   from cursos;
+
+   insert into cursos                    -- Inserta el nuevo curso
+   values (
+      codigo,
+      concat('CURSO', codigo),           -- Nombre = CURSO + código
+      (RAND() * (200 - 100)) + 100       -- Precio aleatorio 100–200
+   );
+
+   set contador = contador + 1;          -- Avanza el contador
+ end while;
+end//
+delimiter ;
+
+-- Probar el procedimiento
+call insert_5();                          -- Ejecuta el procedimiento
+select * from cursos;                     -- Ver los cursos insertados
